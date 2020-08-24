@@ -23,9 +23,4 @@ app.use((req, res, next) => {
 // app.delete('/api/v1/users/:id', deleteUser);
 app.use('/api/v1/users', userRouter);
 
-// START SERVER
-const port = 8000;
-
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}...`);
-});
+module.exports = app;
