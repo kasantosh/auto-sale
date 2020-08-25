@@ -13,6 +13,16 @@ exports.checkID = (req, res, next, val) => {
   } else next();
 };
 
+exports.checkBody = (req, res, next) => {
+  if (!req.body.login || !req.body.url) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Missing login or url',
+    });
+  }
+  next();
+};
+
 // ROUTE HANDLERS
 // GET ALL USERS
 exports.getAllUsers = (req, res) => {

@@ -9,12 +9,13 @@ const router = express.Router();
 //   console.log('Tour id is: ', val);
 //   next();
 // });
+
 router.param('id', userController.checkID);
 
 router
   .route('/')
   .get(userController.getAllUsers)
-  .post(userController.createUser);
+  .post(userController.checkBody, userController.createUser);
 router
   .route('/:id')
   .get(userController.getUser)
