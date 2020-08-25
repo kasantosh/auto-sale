@@ -5,6 +5,12 @@ const router = express.Router();
 
 // const { getAllUsers, createUser, getUser, updateUser, deleteUser } = userController;
 
+// router.param('id', (req, res, next, val) => {
+//   console.log('Tour id is: ', val);
+//   next();
+// });
+router.param('id', userController.checkID);
+
 router
   .route('/')
   .get(userController.getAllUsers)

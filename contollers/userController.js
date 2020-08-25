@@ -2,6 +2,17 @@ const fs = require('fs');
 
 const users = JSON.parse(fs.readFileSync(`${__dirname}/../data/users.json`));
 
+exports.checkID = (req, res, next, val) => {
+  const id = Number(val);
+  const user = users.find((el) => el.id === id);
+  if (!user) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'User does not exist',
+    });
+  } else next();
+};
+
 // ROUTE HANDLERS
 // GET ALL USERS
 exports.getAllUsers = (req, res) => {
@@ -17,21 +28,13 @@ exports.getAllUsers = (req, res) => {
 // GET SINGLE USER
 exports.getUser = (req, res) => {
   const id = req.params.id * 1;
-
   const user = users.find((el) => el.id === id);
-  if (!user) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'User does not exist',
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user,
-      },
-    });
-  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  });
 };
 
 // CREATE USER
@@ -52,36 +55,18 @@ exports.createUser = (req, res) => {
 
 // UPDATE USER
 exports.updateUser = (req, res) => {
-  const id = req.params.id * 1;
-  const user = users.find((el) => el.id === id);
-  if (!user) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'User does not exist',
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user: '<User updated here...>',
-      },
-    });
-  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user: '<User updated here...>',
+    },
+  });
 };
 
 // DELETE USER
 exports.deleteUser = (req, res) => {
-  const id = req.params.id * 1;
-  const user = users.find((el) => el.id === id);
-  if (!user) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'User does not exist',
-    });
-  } else {
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
 };
