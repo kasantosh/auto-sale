@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const autoRouter = require('./router/autoRouter');
+const autoRouter = require('./routers/autoRouter');
+const userRouter = require('./routers/userRouter');
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use((req, res, next) => {
 // app.patch('/api/v1/autos/:id', updateUser);
 // app.delete('/api/v1/autos/:id', deleteUser);
 app.use('/api/v1/autos', autoRouter);
+app.use('/api/v1/users', userRouter);
 
 module.exports = app;
