@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('./../contollers/userController');
+const autoController = require('./../controllers/autoController');
 
 const router = express.Router();
 
@@ -10,16 +10,16 @@ const router = express.Router();
 //   next();
 // });
 
-router.param('id', userController.checkID);
+router.param('id', autoController.checkID);
 
 router
   .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.checkBody, userController.createUser);
+  .get(autoController.getAllAutos)
+  .post(autoController.checkBody, autoController.createAuto);
 router
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(autoController.getAuto)
+  .patch(autoController.updateAuto)
+  .delete(autoController.deleteAuto);
 
 module.exports = router;
