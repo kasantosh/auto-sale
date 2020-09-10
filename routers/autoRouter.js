@@ -3,19 +3,20 @@ const autoController = require('../controllers/autoController');
 
 const router = express.Router();
 
-// const { getAllUsers, createUser, getUser, updateUser, deleteUser } = userController;
+// router.param('id', autoController.checkID);
 
-// router.param('id', (req, res, next, val) => {
-//   console.log('Tour id is: ', val);
-//   next();
-// });
+router
+  .route('/top-5-suvs')
+  .get(autoController.top5Suvs, autoController.getAllAutos);
 
-router.param('id', autoController.checkID);
+router
+  .route('/top-5-sedans')
+  .get(autoController.top5Sedans, autoController.getAllAutos);
 
 router
   .route('/')
   .get(autoController.getAllAutos)
-  .post(autoController.checkBody, autoController.createAuto);
+  .post(autoController.createAuto);
 router
   .route('/:id')
   .get(autoController.getAuto)
