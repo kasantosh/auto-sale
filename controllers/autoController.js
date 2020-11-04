@@ -1,5 +1,7 @@
 const Auto = require('./../models/autoModel');
-const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 // const autos = JSON.parse(fs.readFileSync(`${__dirname}/../data/autos.json`));
 
@@ -23,8 +25,7 @@ exports.top5Sedans = (req, res, next) => {
 
 // ROUTE HANDLERS
 // GET ALL autos
-exports.getAllAutos = async (req, res) => {
-  try {
+exports.getAllAutos = catchAsync(async (req, res, next) => {
     // EXECUTE QUERY
     const features = new APIFeatures(Auto.find(), req.query)
       .filter()
@@ -33,7 +34,6 @@ exports.getAllAutos = async (req, res) => {
       .paginate();
 
     const autos = await features.query;
-
     // const autos = await Auto.find().where('price').lte('5000');
 
     res.status(200).json({
@@ -43,40 +43,25 @@ exports.getAllAutos = async (req, res) => {
         autos,
       },
     });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+});
 
 // GET SINGLE auto
-exports.getAuto = async (req, res) => {
-  try {
+exports.getAuto = catchAsync(async (req, res, next) => {
     const auto = await Auto.findById(req.params.id);
-    if (auto) {
-      res.status(200).json({
-        status: 'success',
-        data: { auto },
-      });
-    } else {
-      res.status(404).json({
-        status: 'fail',
-        message: err,
-      });
-    }
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
+    if (!auto) {
+      return next(new AppError('No Auto found with that ID', 404));
+    } 
+
+    res.status(200).json({
+      status: 'success',
+      data: { auto },
     });
-  }
-};
+});
+
 
 // CREATE auto
-exports.createAuto = async (req, res) => {
-  try {
+exports.createAuto = catchAsync(async (req, res, next) => {
+
     const newAuto = await Auto.create(req.body);
     res.status(201).json({
       status: 'success',
@@ -84,47 +69,58 @@ exports.createAuto = async (req, res) => {
         auto: newAuto,
       },
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+});
 
 // UPDATE auto
-exports.updateAuto = async (req, res) => {
-  try {
+exports.updateAuto = catchAsync(async (req, res, next) => {
+
     const auto = await Auto.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
+
+    if (!auto) {
+      return next(new AppError('No Auto found with that ID', 404));
+    } 
+
     res.status(200).json({
       status: 'success',
       data: {
         auto: auto,
       },
     });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+});
 
 // DELETE auto
-exports.deleteAuto = async (req, res) => {
-  try {
-    await Auto.findByIdAndDelete(req.params.id);
+exports.deleteAuto = catchAsync(async (req, res, next) => {
+    const auto = await Auto.findByIdAndDelete(req.params.id);
+
+    if (!auto) {
+      return next(new AppError('No Auto found with that ID', 404));
+    } 
     res.status(204).json({
       status: 'success',
       data: null,
     });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
+
+});
+
+exports.getAutoBodyStats = catchAsync(async (req, res, next) => {
+    const stats = await Auto.aggregate([
+      {
+        $group: {
+          _id: '$bodyType',
+          numAuto: { $sum: 1 },
+          minprice: { $min: '$price' },
+          maxprice: { $max: '$price' },
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
     });
-  }
-};
+
+});

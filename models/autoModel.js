@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const year = parseInt(new Date().getFullYear());
+
 const autoSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -13,16 +15,18 @@ const autoSchema = new mongoose.Schema({
   },
   make: {
     type: String,
-    required: [true, 'Please enter the make of the vehicle you want to sell'],
+    required: [true, 'Please enter the make of the vehicle'],
     trim: true,
   },
   model: {
     type: String,
     required: [true, 'Please enter the model name'],
-    trim: true,
+    trim: true
   },
   year: {
     type: Number,
+    min: [year - 40, 'Year must be within last 40 years'],
+    max: [year, 'Year can not be greater than current year'],
     required: [true, 'Please enter the year of manufacture'],
   },
   price: {

@@ -1,11 +1,17 @@
-// ROUTE HANDLERS
+const User = require("../models/userModel");
+const catchAsync = require('../utils/catchAsync');
+
 // GET ALL Users
-exports.getAllUsers = (req, res) => {
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
   res.status(200).json({
     status: 'success',
-    message: 'Will get all users',
+    results: users.length,
+    data: {
+      users
+    }
   });
-};
+});
 
 // GET SINGLE auto
 exports.getUser = (req, res) => {
@@ -27,7 +33,7 @@ exports.createUser = (req, res) => {
 exports.updateUser = (req, res) => {
   res.status(201).json({
     status: 'success',
-    message: 'Will updatete user',
+    message: 'Will update user',
   });
 };
 
