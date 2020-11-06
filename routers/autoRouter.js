@@ -20,6 +20,7 @@ router
   .route('/')
   .get(authController.protect, autoController.getAllAutos)
   .post(autoController.createAuto);
+  
 router
   .route('/:id')
   .get(autoController.getAuto)
