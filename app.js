@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const autoRouter = require('./routers/autoRouter');
 const userRouter = require('./routers/userRouter');
@@ -11,16 +13,31 @@ const app = express();
 
 // MIDDLEWARE (app.use)
 
-// body middleware
-app.use(express.json());
+// Set SECURITY HTTP headers 
+// Helmet
+app.use(helmet());
 
 // login middleware
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
-// serve static files middleware
+// Limit request from same API
+const limiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP. Please try again in an hour!'
+});
+ 
+app.use('/api', limiter);
+
+// body parser, reading data from body into req.body
+app.use(express.json({ limit: '20kb'}));
+
+// serve static files
 app.use(express.static(`${__dirname}/public`));
 
-// date logging middleware
+// Development logging with date
 app.use((req, res, next) => {
   console.log('Logged at: ', new Date());
   next();
