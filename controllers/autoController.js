@@ -1,4 +1,5 @@
 const Auto = require('./../models/autoModel');
+const User = require('./../models/userModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -61,11 +62,15 @@ exports.getAuto = catchAsync(async (req, res, next) => {
 
 // CREATE auto
 exports.createAuto = catchAsync(async (req, res, next) => {
-
     const newAuto = await Auto.create(req.body);
+    // console.log(req.user.id);
+    // const user = await User.findOne({ _id: req.user.id });
+    console.log(user);
+    newAuto.saveUserToAuto(req.user.id);
+
     res.status(201).json({
       status: 'success',
-      message: {
+      data: {
         auto: newAuto,
       },
     });

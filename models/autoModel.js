@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./userModel');
 
 const year = parseInt(new Date().getFullYear());
 
@@ -75,8 +76,31 @@ const autoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  user: 
+    {
+      type: mongoose.Schema.ObjectId, 
+      ref: 'User'
+    }
+  
 });
+
+autoSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: '-__v -autos'
+    });
+
+    next();
+});
+
+
+autoSchema.methods.saveUserToAuto = async function(uid, autoId) {
+  this.user = uid;
+  const user = await User.findById(uid);
+  await this.save();
+};
 
 const Auto = mongoose.model('Auto', autoSchema);
 
 module.exports = Auto;
+

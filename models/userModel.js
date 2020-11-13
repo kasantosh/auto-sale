@@ -21,6 +21,12 @@ const userSchema = mongoose.Schema({
         enum: ['user', 'admin'], 
         default: 'user'
     },
+    autos: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Auto'
+        }
+    ],
     password: {
         type: String,
         required: [true, 'Please provide a password'], 
@@ -73,6 +79,15 @@ userSchema.pre(/^find/, function(next) {
     this.find({ active: { $ne: false } } );
 
     next();
+});
+
+userSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'autos',
+        select: '-__v'
+        });
+    
+        next();
 });
 
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {

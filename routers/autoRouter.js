@@ -19,7 +19,7 @@ router.route('/auto-body-stats').get(autoController.getAutoBodyStats);
 router
   .route('/')
   .get(authController.protect, autoController.getAllAutos)
-  .post(autoController.createAuto);
+  .post(authController.protect, autoController.createAuto);
   
 router
   .route('/:id')

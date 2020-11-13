@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const autoRouter = require('./routers/autoRouter');
 const userRouter = require('./routers/userRouter');
@@ -16,6 +19,11 @@ const app = express();
 // Set SECURITY HTTP headers 
 // Helmet
 app.use(helmet());
+
+// Prevent parameter pollution
+app.use(hpp({
+  whitelist: ['year', 'make', 'price']
+}));
 
 // login middleware
 if (process.env.NODE_ENV === 'development') {
@@ -34,6 +42,12 @@ app.use('/api', limiter);
 // body parser, reading data from body into req.body
 app.use(express.json({ limit: '20kb'}));
 
+// Data sanitization against noSQL injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS attacks
+app.use(xss());
+
 // serve static files
 app.use(express.static(`${__dirname}/public`));
 
@@ -43,11 +57,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get('/api/v1/autos', getAllUsers).post();
-// app.get('/api/v1/autos/:id', getUser);
-// app.post('/api/v1/autos', createUser);
-// app.patch('/api/v1/autos/:id', updateUser);
-// app.delete('/api/v1/autos/:id', deleteUser);
 // Routing middleware
 app.use('/api/v1/autos', autoRouter);
 app.use('/api/v1/users', userRouter);
