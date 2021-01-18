@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/697876c771.js"></script>
+    <link rel="stylesheet", href="css/style.css" />
+    <title>Auto-Sale</title>
+  </head>
+  <body>
+      <header class="main-section">
+        <div class="main-section-title"> <a class="main-link" href="#">Auto Sale</a> </div>
+        <div class="main-section-logo">
+          <div class="main-section-logo-img">
+            <img class="logo-img" src="img/auto-logo-white.png" alt="auto sale logo">
+          </div>
+        </div>
+        <div class="main-section-nav">
+          <ul class="main-section-nav-ul">
+            <li class="main-section-nav-li">Santosh</li>
+            <li class="main-section-nav-img">
+                <a class="main-section-nav-img-link" href="#">
+                  <img  class="main-section-nav-user" src="img/users/default.jpg" alt="User image"></a>
+            </li>
+            <li class="main-section-nav-li">Login</li>
+            <li class="main-section-nav-li btn nav-btn"><a class="nav-btn-link" href="#">Sign up</a> </li>
+          </ul>
+        </div>
+      </header>
+
+        <section class="signup">
+
+            <form class="form form-signup show-alert">
+                <h2 class="heading-secondary">Sign up for your account</h2>
+                <div class="form__group">
+                    <label for="name" class="form__label">Name</label>
+                    <input  id="name" class="form__input" type="text" placeholder="Your full name" name="name", required>
+                </div>
+                <div class="form__group">
+                    <label for="email" class="form__label">Email address</label>
+                    <input type="text" id="email" class="form__input" placeholder="email@example.com" name="email", required>
+                </div>
+                <div class="form__group">
+                    <label for="password" class="form__label">Password</label>
+                    <input type="password" id="password" class="form__input" placeholder="••••••••" name="password", minlength="8" required>
+                </div>
+                <div class="form__group">
+                    <label for="password-confirm" class="form__label">Confirm Password</label>
+                    <input type="password" id="password-confirm" class="form__input" placeholder="••••••••" name="password-confirm", minlength="8" required>
+                </div>
+
+                <div class="form__group form__photo-upload">
+                    <img class="form__user-photo" src="img/users/default.jpg" alt="User photo">
+                    <input type="file" class="form__upload" accept="image/*" id=photo>
+                    <label for="photo">Upload photo (optional)</label>
+                </div>
+                
+                <div class="btn settings-btn btn-signup">Sign up</div>
+            </form>
+            
+        </section>
+
+      <footer class="footer">
+          <div class="footer-details">
+            <div class="creator-details">
+              &copy;2020 Santosh Nair
+            </div>
+  
+            <ul class="footer-ul">
+              <li class="footer-li"><a href="#">home</a></li>
+              <li class="footer-li"><a href="#">login</a></li>
+              <li class="footer-li"><a href="#">Sign up</a></li>
+              <li class="footer-li"><a href="#">Post Ad</a></li>
+            </ul>
+        </div>
+       
+      </footer>
+  </body>
+</html>

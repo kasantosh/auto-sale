@@ -1,0 +1,50 @@
+extends base
+
+block content
+    .container
+        section.auto-overview
+            each auto in autos
+                .card
+                    .auto-image-section
+                        img.auto-image-cover(src=`/img/autos/${auto.imageCover}` alt=`${auto.make} photo`)
+                    .auto-detail-section
+                        .auto-make #{auto.make} | 
+                            span.auto-model #{auto.model}
+                        .auto-location
+                            p.auto-location-text #{auto.location}
+                        .auto-title
+                            p.auto-title-text #{auto.title}
+
+                        p #{auto.description}
+
+                        - const autoMileage = auto.mileage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        .auto-mileage #{autoMileage}km
+
+                        - const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(auto.price)
+                        .auto-price #{formattedPrice}
+                        
+                        .auto-detail-btn
+                            a.btn.btn-details(href=`/auto/${auto.slug}`) Details
+        section.review-section
+            .heading-reviews User Reviews 
+                i.far.fa-star.fa-star-opacity
+                i.far.fa-star.fa-star-opacity
+                i.far.fa-star.fa-star-opacity
+                i.far.fa-star.fa-star-opacity
+                i.far.fa-star.fa-star-opacity
+            
+            each review in reviews
+                .review-box
+                    .review-img
+                    img.review-user-image(src=`/img/users/${review.user.photo}`)
+
+                    .review-detail
+                        .review-title #{review.title}
+                        p.review-para #{review.review}
+                        - const ratingRounded = Math.round(review.rating)
+                        p.review-user-name - #{review.user.name.split(' ')[0]}
+                        
+                        .review-star-box
+                            each rating in [1, 2, 3, 4, 5]
+                                .review-rating 
+                                    i.far.fa-star(class= `${rating > ratingRounded ? 'fa-star-opacity' : ''}`)

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./userModel');
+const slugify = require('slugify');
 
 const year = parseInt(new Date().getFullYear());
 
@@ -34,11 +35,15 @@ const autoSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter a price'],
   },
+  imageCover: {
+    type: String,
+  },
   image: [String],
   exteriorColour: {
     type: String,
     trim: true,
   },
+  slug: String,
   interiorColour: {
     type: String,
     trim: true,
@@ -75,30 +80,45 @@ const autoSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-  },
-  user: 
+  }, 
+  user:
     {
-      type: mongoose.Schema.ObjectId, 
-      ref: 'User'
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
+      // required: [true, 'Post for auto sale must belong to a user']
     }
-  
-});
+},
+{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+}
+);
+
+autoSchema.index({ price: 1, model: 1 });
+
+autoSchema.index({ slug: 1 });
+
+// Virtual populate
+// autoSchema.virtual('user', {
+//   ref: 'User',
+//   foreignField: 'autos',
+//   localField: '_id'
+// });
 
 autoSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
-    select: '-__v -autos'
+    select: 'name email photo',
+    select: '-autos -__v'
     });
 
     next();
 });
 
-
-autoSchema.methods.saveUserToAuto = async function(uid, autoId) {
-  this.user = uid;
-  const user = await User.findById(uid);
-  await this.save();
-};
+autoSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
+});
 
 const Auto = mongoose.model('Auto', autoSchema);
 

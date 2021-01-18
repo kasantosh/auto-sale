@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please enter your name']
@@ -15,18 +15,15 @@ const userSchema = mongoose.Schema({
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
     },
-    photo: String,
+    photo: {
+        type: String,
+        default: 'default.jpg'
+    },
     role: {
         type: String,
         enum: ['user', 'admin'], 
         default: 'user'
     },
-    autos: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Auto'
-        }
-    ],
     password: {
         type: String,
         required: [true, 'Please provide a password'], 
@@ -53,8 +50,39 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: true,
         select: false
-        }
-    });
+        },
+    // autos: [
+    //     {
+    //         type: mongoose.Schema.ObjectId, 
+    //         ref: 'Auto'
+    //     }
+    // ],
+    // reviews: [
+    //     {
+    //         type: mongoose.Schema.ObjectId, 
+    //         ref: 'Review'
+    //     }
+    // ],
+    },
+    {
+        // To make visible all derived or calculated attribues/fields
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
+    }
+    );
+
+// Virtual populate
+userSchema.virtual('autos', {
+    ref: 'Auto',
+    foreignField: 'user',
+    localField: '_id'
+  });
+
+userSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'user',
+    localField: '_id',
+});
 
 // Hashing passwords
 userSchema.pre('save', async function(next) {
@@ -76,19 +104,21 @@ userSchema.pre('save', function(next) {
 
 userSchema.pre(/^find/, function(next) {
     // this points to the current query (everything starting with 'find')
-    this.find({ active: { $ne: false } } );
-
+    this.find({ active: { $ne: false } });
+    
     next();
 });
 
-userSchema.pre(/^find/, function(next) {
-    this.populate({
-        path: 'autos',
-        select: '-__v'
-        });
+// userSchema.pre(/^find/, function(next) {
+//     this.populate({
+//         path: 'autos'
+//         }).populate({
+//             path: 'reviews',
+//         });
     
-        next();
-});
+//         next();
+// });
+
 
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);

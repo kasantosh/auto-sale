@@ -1,0 +1,96 @@
+extends base
+
+block content
+    section.postad
+        form.form.form-postad.show-alert
+            h2.heading-secondary Post your auto ad
+
+            .post-ad--form
+                .form__group.post-ad--form-div
+                    label.form__label(for='make') Make
+                    input.form__input#make(type='text' name='make' placeholder='Auto make' required)
+                .form__group.post-ad--form-div
+                    label.form__label(for='model') Auto model
+                    input.form__input#model(type='text' name='model' placeholder='Auto model' required)
+                .form__group.post-ad--form-div
+                    label.form__label(for='year') Year
+                    input.form__input#year(type='number' name='year' placeholder='Model year' min= 1970 required)
+                .form__group.post-ad--form-div
+                    label.form__label(for='price') Price
+                    input.form__input#price(type='number' name='price' placeholder='Desired price' required)
+                .form__group.post-ad--form-div
+                    label.form__label(for='mileage') Mileage (km)
+                    input.form__input#mileage(type='number' name='mileage' placeholder='Mileage' required)
+                .form__group.post-ad--form-div
+                    label.form__label(for='location') Location
+                    input.form__input#location(type='text' name='location' placeholder='Your location')
+                .form__group.post-ad--form-div
+                    label.form__label(for='ext-colour') Exterior Colour
+                    input.form__input#ext-colour(type='text' name='ext-colour' placeholder='Exterior Colour')
+                .form__group.post-ad--form-div
+                    label.form__label(for='int-colour') Interior Colour
+                    input.form__input#int-colour(type='text' name='int-colour' placeholder='Interior Colour')
+                .form__group.post-ad--form-div
+                    label.form__label(for='body-type') Body Type
+                    select.form__input#body-type(name='body-type' required)
+                        option(value='Sedan' selected) Sedan
+                        option(value='SUV') SUV
+                .form__group.post-ad--form-div
+                    label.form__label(for='fuel-type') Fuel Type
+                    select.form__input#fuel-type(name='fuel-type')
+                        option(value='Gas' selected) Gas
+                        option(value='Diesel') Diesel
+                .form__group.post-ad--form-div
+                    label.form__label(for='drive-type') Drive Type
+                    select.form__input#drive-type(name='drive-type')
+                        option(value='front-wheel' selected) Front Wheel
+                        option(value='all-wheel') All Wheel
+                .form__group.post-ad--form-div
+                    label.form__label(for='transmission') Transmission
+                    select.form__input#transmission(name='transmission')
+                        option(value='automatic' selected) Automatic
+                        option(value='standard') Standard
+                .form__group.post-ad--form-div
+                    label.form__label(for='passengers') Passengers
+                    select.form__input#passengers(name='passengers')
+                        option(value='4') 4
+                        option(value='5' selected) 5
+                        option(value='6') 6
+                        option(value='7') 7
+                .form__group.post-ad--form-div
+                    label.form__label(for='condition') Condition
+                    input.form__input#condition(type='number' name='condition' placeholder='Rate 1 - 10' min= 1 max=10)
+                
+
+                .post-ad--form
+                .form__group.post-ad--form-line
+                    label.form__label(for='title') Title
+                    input.form__input#title(type='text' name='title' placeholder='Write a short catchy title to attract buyers' required)
+
+                .form__group.post-ad--form-line
+                    label.form__label(for='description') Description
+                    textarea.form__input#description(type='text' name='description' placeholder='Give some details about your auto' rows = '3')
+
+                .photo-upload-div
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-cover') Upload main photo
+                        input#image-cover.postauto-fileupload(type='file' accept='image/*' name='image-cover')
+
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-1') Upload photo 1
+                        input#image-1.postauto-fileupload(type='file' accept='image/*' name='image-1')
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-2') Upload photo 2
+                        input#image-2.postauto-fileupload(type='file' accept='image/*' name='image-2')
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-3') Upload photo 3
+                        input#image-3.postauto-fileupload(type='file' accept='image/*' name='image-3')
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-4') Upload photo 4
+                        input#image-4.postauto-fileupload(type='file' accept='image/*' name='image-4')
+                    .form__group.form__photo-upload
+                        label.form-upload-label(for='image-5') Upload photo 5
+                        input#image-5.postauto-fileupload(type='file' accept='image/*' name='image-5')   
+
+            .postad-button
+                button.btn.settings-btn.form-postad Post Ad

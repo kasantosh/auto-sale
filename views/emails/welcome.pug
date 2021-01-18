@@ -1,0 +1,17 @@
+extends baseEmail
+
+block content
+    p Hi #{firstName},
+    p Welcome to Auto-Sale, we're glad to have you 🎉🙏
+    p We're all a happy family here, so make sure to use this site to sell your auto. Also, please add your photo on your profile you wish to make it more personalized!
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+        tbody
+            tr
+                td(align='left')
+                    table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                        tbody
+                            tr
+                                td
+                                    a(href=`${url}`, target='_blank') Upload user photo
+    p If you need any help with your account, please don't hesitate to contact me!
+    p - Santosh Nair, CEO, Auto-Sale

@@ -1,0 +1,64 @@
+extends base
+
+mixin accountLinks(icon, text, href)
+    li.account-links-li
+        i(class=`${icon} account-links-icons`)
+        a.account-links-li-link(href=`${href}`) #{text}
+
+mixin userPassword(forText, labelText, id)
+    .form__group
+        label.form__label(for=`${forText}`) #{labelText}
+        input.form__input(id=`${id}` type='password' min-length='8' placeholder='••••••••' required)
+
+block content
+    section.account
+        .account-box
+            .account-details
+                h2.heading-secondary Your account details
+                //- form.form(action='/submit-user-data' method='POST' enctype='multipart/form-data') 
+                //- Above is with for submit
+                //- With API as below
+                form.form.form-user-data.show-alert
+                    .form__group
+                        label.form__label(for='name') Name
+                        input#name.form__input(type='text' value=user.name name='name' required)
+
+                    .form__group
+                        label.form__label(for='email') Email Address
+                        input#email.form__input(type='text' value=user.email name='email' required)
+
+                    .form__group.form__photo-upload
+                        img.form__user-photo(src=`/img/users/${user.photo}` alt='User photo')
+                        input#photo.form__upload(type='file' accept='image/*', name='photo')
+                        label(for='photo') Upload new photo
+                        
+                    button.btn.settings-btn.btn--data Save settings
+                
+                .line &nbsp;
+
+                h2.heading-secondary Change your password
+                form.form.form-user-password
+                    +userPassword('password-current', 'Current password', 'password-current')
+                    +userPassword('password', 'New password', 'password')
+                    +userPassword('password-confirm', 'Confirm password', 'password-confirm')
+                        
+                    .form__group
+                            button.btn.settings-btn.btn--password Save password
+                           
+            .account-links
+                -if (user.role === 'user')
+                    ul.account-links-ul
+                        h4.user-heading #{user.name}
+                        +accountLinks('fas fa-ad', 'Ads Posted', '/my-ads')
+                        +accountLinks('fas fa-star', 'Reviews', '#')
+                        +accountLinks('fas fa-cog', 'Settings', '#')
+                        +accountLinks('fas fa-credit-card', 'Billing', '#')
+
+                -if (user.role === 'admin')                
+                    ul.account-links-ul
+                        h4.user-heading Admin
+                        +accountLinks('fas fa-ad', 'Manage Ads', '#')
+                        +accountLinks('fas fa-star', 'Manage Reviews', '#')
+                        +accountLinks('fas fa-cog', 'Manage Settings', '#')
+                        +accountLinks('fas fa-user-friends', 'Manage users', '#')
+                        +accountLinks('fas fa-credit-card', 'Manage billing', '#')

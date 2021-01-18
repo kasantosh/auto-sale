@@ -1,0 +1,56 @@
+extends base
+
+mixin autoDetailList(listTitle, actual)
+  .auto-details-list-group
+    .list-title #{listTitle}
+    .list-descr #{actual}
+
+block content
+    section.auto-detail
+      .auto-detail-card
+        .auto-make #{auto.make} | 
+          span.auto-detail-model #{auto.model} | 
+          span.auto-detail-year #{auto.year} Model
+            
+        .auto-title #{auto.title}
+
+        .auto-location
+          p.auto-location-text #{auto.location}
+
+        - const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(auto.price)
+        .auto-price #{formattedPrice}
+
+        .auto-description
+          p #{auto.description}
+                
+        .auto-detail-main-image-box
+          img.auto-detail-main-image-img(src=`/img/autos/${auto.imageCover}` alt = `${auto.make} photo`)
+        
+          .auto-image-box
+            each image in auto.image
+              .auto-thumb
+                img.auto-thumb__image(src=`/img/autos/${image}`)
+        
+        .auto-details-list
+          +autoDetailList('Make', `${auto.make}`)
+          +autoDetailList('Model', `${auto.model}`)
+          +autoDetailList('Year', `${auto.year}`)
+          +autoDetailList('Ext. Color', `${auto.exteriorColour}`)
+          +autoDetailList('Int. Color', `${auto.interiorColour}`)
+          +autoDetailList('Body Type', `${auto.bodyType}`)
+          +autoDetailList('Fuel Type', `${auto.fuelType}`)
+          +autoDetailList('Drive Type', `${auto.driveType}`)
+          +autoDetailList('Transmission', `${auto.transmission}`)
+          +autoDetailList('Passengers', `${auto.passengers}`)
+          +autoDetailList('Transmission', `${auto.transmission}`)
+          +autoDetailList('Condition', `${auto.condition}`)
+        
+        .seller-details Contact Seller:
+
+        .auto-seller
+          .auto-seller-logo
+            img.auto-seller-img(src='/img/auto-logo-white.png' alt='Seller photo')
+          .seller-photo
+            img.seller-photo-img(src=`/img/users/${auto.user.photo}` alt='seller photo')
+          .seller-name #{auto.user.name}
+          .seller-email email: #{auto.user.email}

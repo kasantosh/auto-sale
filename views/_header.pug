@@ -1,0 +1,23 @@
+header.main-section
+    .main-section-logo-img
+        a.main-link(href='/')
+            img.logo-img(src='/img/auto-logo-white.png' alt='The auto sale logo')
+    .main-section-title
+         a.main-link(href='/') Auto Sale        
+    .search-header
+        .searchbar-li
+            input.searchbar(type='text' placeholder='search auto (not implemented)')
+            i.fas.fa-search
+    .main-section-nav
+        ul.main-section-nav-ul
+            if user
+                a.main-section-nav-li.main-section-nav-logout(href='/') Log out
+                li.main-section-nav-img
+                    a.main-section-nav-img-link(href='/Me')
+                        img.main-section-nav-user(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+                li.main-section-nav-name= user.name.split(' ')[0]
+                li.main-section-nav-post
+                    a.btn.nav-btn-post(href='/postad') Post Ad
+            else
+                a.main-section-nav-li(href='/login') Login
+                a.main-section-nav-li.btn.nav-btn.nav-btn-link(href='/signup') Sign up

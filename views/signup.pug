@@ -1,0 +1,25 @@
+extends base
+
+block content
+    section.signup
+        form.form.form-signup.show-alert
+            h2.heading-secondary Sign up for your account
+       
+            .form__group
+                label.form__label(for='name') Name
+                input.form__input#name(type='text' name='name' placeholder='Your full name', required)
+            .form__group
+                label.form__label(for='email') Email Address
+                input.form__input#email(type='email' name='email' placeholder='email@example.com', required)
+            .form__group
+                label.form__label(for='password') Password
+                input.form__input#password(type='password' name='password' placeholder='••••••••', minlength='8' required)
+            .form__group
+                label.form__label(for='password-confirm') Confirm password
+                input.form__input#password-confirm(type='password' name='password-confirm' placeholder='••••••••', minlength='8' required)
+            //- .form__group.form__photo-upload
+            //-     img.form__user-photo(src='/img/users/default.jpg' alt='upload user photo')
+            //-     input#photo.form__upload(type='file' accept='image/*' name='photo')  
+            //-     label(for='photo') Upload photo (optional)
+            button.btn.settings-btn.btn-signup Sign up
+                
