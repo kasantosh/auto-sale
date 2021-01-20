@@ -895,6 +895,7 @@ html {
   padding: 2rem;
   margin: 4rem auto;
   box-shadow: var(--shadow-dark);
+  border-radius: 1rem;
 }
 
 .heading-reviews {
