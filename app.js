@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const autoRouter = require('./routers/autoRoutes');
 const userRouter = require('./routers/userRoutes');
@@ -24,6 +25,13 @@ app.enable('trust proxy');
 // Set up views engine as pug
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// Implement CORS
+app.use(cors());
+app.options('*', cors()); //allows all http verbs like PUT, PATCH, DELETE
+// app.use(cors({
+//   origin: 'https://www.auto-sale.com' // allows only this site
+// }));
 
 // MIDDLEWARE (app.use)
 
