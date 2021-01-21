@@ -682,11 +682,11 @@ html {
 @keyframes fadeOutRight {
   0% {
      opacity: 0;
-     transform: scale(0);
+     width: 0;
   }
   100% {
      opacity: 1;
-     transform: scale(100%);
+     width: 100%;
   }
 }
 
@@ -696,7 +696,7 @@ html {
   margin: 3rem 0;
   display: flex;
   align-content: center;
-  animation: fadeOutRight 0.7s;
+  animation: fadeOutRight 1s;
   transform: opacity 1s;
 }
 
