@@ -49,7 +49,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     const autos = await Auto.find();
     const userAutos = [];
     autos.forEach(auto => {
-      console.log(auto.user.id);
+      // console.log(auto.user.id);
       if (auto.user.id === req.user.id) userAutos.push(auto);
       return userAutos;
     });

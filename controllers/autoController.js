@@ -57,17 +57,17 @@ exports.resizeAutoImages = catchAsync(async (req, res, next) => {
     req.body.image.push(filename);
   }));
 
-  console.log(req.body);
+  // console.log(req.body);
   next();
 });
 
 exports.getMyAutos = async (req, res, next) => {
-  console.log(req.user.id)
+  // console.log(req.user.id);
   const autos = await Auto.find();
 
   const userAutos = [];
   autos.forEach(auto => {
-    console.log(auto.user.id);
+    // console.log(auto.user.id);
     if (auto.user.id === req.user.id) userAutos.push(auto);
     return userAutos;
   });
@@ -81,7 +81,7 @@ exports.getMyAutos = async (req, res, next) => {
  
 // TOp 5 SUVS
 exports.top5Suvs = (req, res, next) => {
-  console.log(req.query);
+  // console.log(req.query);
   req.query.limit = '5';
   req.query.sort = 'mileage,price';
   req.query.bodyType = 'SUV';
@@ -90,7 +90,7 @@ exports.top5Suvs = (req, res, next) => {
 
 // TOp 5 Sedans
 exports.top5Sedans = (req, res, next) => {
-  console.log(req.query);
+  // console.log(req.query);
   req.query.limit = '5';
   req.query.sort = 'mileage,price';
   req.query.bodyType = 'Sedan';

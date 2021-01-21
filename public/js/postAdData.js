@@ -6,7 +6,7 @@ export const postAdData = async (data, type) => {
     try {     
         const res = await axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/api/v1/autos/',
+        url: '/api/v1/autos/',
         data
     });
     if (res.data.status === 'success') {
