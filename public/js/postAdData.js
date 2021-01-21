@@ -3,7 +3,6 @@ import { showAlert } from './alert';
 
 // type is either password or data
 export const postAdData = async (data, type) => {
-    console.log(data, type);
     try {     
         const res = await axios({
         method: 'POST',
